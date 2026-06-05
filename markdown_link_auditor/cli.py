@@ -28,6 +28,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     check.add_argument("--output", help="Write the report to a file instead of stdout.")
     check.add_argument(
+        "--force",
+        action="store_true",
+        help="Allow --output to overwrite an existing file.",
+    )
+    check.add_argument(
         "--strict",
         action="store_true",
         help="Fail on warnings unless --fail-on is explicitly set.",
@@ -73,7 +78,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             report = render_report(result, args.format, no_values=args.no_values)
             if args.output:
-                Path(args.output).write_text(report, encoding="utf-8")
+                output_path = Path(args.output)
+                if output_path.exists() and not args.force:
+                    raise AuditInputError(
+                        f"Output file already exists: {output_path}. Use --force to overwrite it."
+                    )
+                output_path.write_text(report, encoding="utf-8")
             else:
                 sys.stdout.write(report)
         except AuditInputError as exc:

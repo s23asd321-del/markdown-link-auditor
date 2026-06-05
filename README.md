@@ -58,6 +58,7 @@ python -m markdown_link_auditor.cli check README.md
 python -m markdown_link_auditor.cli check docs --format markdown
 python -m markdown_link_auditor.cli check . --format json
 python -m markdown_link_auditor.cli check . --output /tmp/markdown-link-report.md --format markdown
+python -m markdown_link_auditor.cli check . --output /tmp/markdown-link-report.md --format markdown --force
 ```
 
 After installation, the CLI entry point is also available:
@@ -110,7 +111,8 @@ Use `--no-values` when reports may be copied into public tickets or CI logs. It 
 | Option | Default | Description |
 | --- | --- | --- |
 | `--format text/markdown/json` | `text` | Selects report format. |
-| `--output <file>` | stdout | Writes the report to a file. |
+| `--output <file>` | stdout | Writes the report to a file. Existing files are not overwritten unless `--force` is used. |
+| `--force` | off | Allows `--output` to overwrite an existing file. |
 | `--strict` | off | Fails on warnings unless `--fail-on` is set. |
 | `--include-hidden` | off | Includes hidden directories. |
 | `--max-file-size-kb <number>` | `512` | Skips Markdown files above this size. |
@@ -155,6 +157,8 @@ If a `.markdown-link-auditor-ignore` file exists in the scanned directory, simpl
 ## Markdown Support
 
 Version 0.1 intentionally uses a small parser rather than a complete CommonMark implementation. It covers common inline links, images, same-file anchors, cross-file anchors, reference-style definitions, and fenced code blocks. Links inside fenced code blocks are skipped.
+
+Future parser work should focus on accuracy for nested parentheses, escaped characters, complex reference links, and broader CommonMark fixtures while keeping the default behavior predictable.
 
 ## Examples
 
