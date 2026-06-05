@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [
-  { name = "markdown-link-auditor contributors" }
+  { name = "s23asd321-del" }
 ]
 keywords = ["markdown", "links", "anchors", "cli", "documentation"]
 classifiers = [
